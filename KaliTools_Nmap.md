@@ -92,9 +92,9 @@ nmap --script asn-query,whois 192.168.1.1           # Runs lookups against the I
 Nmap understands that you may want to run scans and review the results for further information later.  As such, there are multiple options for outputting the results.
 
 ```bash
-nmap -oX <file_name>.xml target.com			# Outputs results to an XML
-nmap -oN <file_name>.txt target.com			# Outputs results to a txt file
-nmap -oG <file_name>.txt target.com			# Outputs as txt file that's easy to grep
-nmap -oA <file_name> target.com				# Outputs in all formats
+nmap -oX <file_name>.xml target.com     # Outputs results to an XML
+nmap -oN <file_name>.txt target.com     # Outputs results to a txt file
+nmap -oG <file_name>.txt target.com     # Outputs as txt file that's easy to grep
+nmap -oA <file_name> target.com         # Outputs in all formats
 ```
 

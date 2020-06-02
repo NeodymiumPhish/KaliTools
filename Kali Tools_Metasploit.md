@@ -1,13 +1,3 @@
-This page will document uses and examples for the Metasploit Framework tool
-
-Sources:
-
-[Metasploit Unleashed](https://www.offensive-security.com/metasploit-unleashed)
-
-[Exploit-DB's "Easiest Metasploit Guide You'll Ever Use"](https://www.exploit-db.com/docs/english/44040-the-easiest-metasploit-guide-you'll-ever-read.pdf)
-
-
-
 # Metasploit
 
 ```bash
@@ -624,6 +614,11 @@ Database Backend Commands
 
 We'll go in-depth on how to use Metasploit's database functionality in a later chapter, but it's a great idea to learn this early on so you can store data from nmap scans, and reference them during later metasploit sessions, instead of having to manually note your findings as you go.
 
+## Sources
 
+Sources:
 
+[Metasploit Unleashed](https://www.offensive-security.com/metasploit-unleashed)
+
+[Exploit-DB's "Easiest Metasploit Guide You'll Ever Use"](https://www.exploit-db.com/docs/english/44040-the-easiest-metasploit-guide-you'll-ever-read.pdf)
 

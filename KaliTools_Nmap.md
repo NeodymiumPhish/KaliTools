@@ -80,9 +80,9 @@ nmap's script flag can accept individual scripts from it's library in `/usr/shar
 
 ```bash
 nmap -sV --script smb-vuln-ms17-010 192.168.1.1		# Scans for all service versions and the checks for the EternalBlue vulnerability
-nmap -sV --script vuln 192.168.1.1					# Runs all of the vulnerability nmap scripts
-nmap --script ~/custom_script.nse 192.168.1.1		# Runs custom NSE script file
-nmap --script asn-query,whois 192.168.1.1			# Runs lookups against the IP address
+nmap -sV --script vuln 192.168.1.1					      # Runs all of the vulnerability nmap scripts
+nmap --script ~/custom_script.nse 192.168.1.1		  # Runs custom NSE script file
+nmap --script asn-query,whois 192.168.1.1			    # Runs lookups against the IP address
 ```
 
 

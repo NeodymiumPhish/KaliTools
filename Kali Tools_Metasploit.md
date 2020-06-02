@@ -1,5 +1,25 @@
 # Metasploit
 
+Table of Contents
+=================
+
+  * [Metasploit-Framework Structure](#metasploit-framework-structure)
+
+  * [Searching Metasploit](#searching-metasploit)
+    * [Search Example (Hard Way)](#search-example-hard-way)
+    * [Search Example (Easy Way)](#search-example-easy-way)
+    * [OK, Search is cool and all, but can it be easier?](#ok-search-is-cool-and-all-but-can-it-be-easier)
+    
+  * [Module Options](#module-options)
+
+  * [Exploiting a Vulnerability](#exploiting-a-vulnerability)
+
+  * [Meterpreter!](#meterpreter)
+
+  * [Database Functionality](#database-functionality)
+
+    ​    
+
 ```bash
 msfconsole [options]
 ```

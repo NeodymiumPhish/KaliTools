@@ -1,15 +1,14 @@
-Kali Tools - Nmap
+# Nmap
 
 Table of Contents
 =================
 
-* [Nmap "Network Mapper"](#nmap-network-mapper)
-     * [Target can be in almost any format:](#target-can-be-in-almost-any-format)
-     * [Selecting port](#selecting-port)
-     * [Scan Types](#scan-types)
-     * [Service and OS Detection Flags](#service-and-os-detection-flags)
-     * [Nmap Scripting Engine (NSE)](#nmap-scripting-engine-nse)
-     * [Nmap Output](#nmap-output)
+ * [Target can be in almost any format:](#target-can-be-in-almost-any-format)
+ * [Selecting port](#selecting-port)
+ * [Scan Types](#scan-types)
+ * [Service and OS Detection Flags](#service-and-os-detection-flags)
+ * [Nmap Scripting Engine (NSE)](#nmap-scripting-engine-nse)
+ * [Nmap Output](#nmap-output)
 
 
 # Nmap "Network Mapper"

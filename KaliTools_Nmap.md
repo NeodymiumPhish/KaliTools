@@ -66,8 +66,8 @@ nmap -sU 192.168.1.1	# UDP scan
 Nmap keeps definitions of services and operating systems and uses these definitions to identify which services and systems are running on target ports.  This includes the ability to identify which version of some services are running.
 
 ```bash
-nmap -A 192.168.1.1		  # Detects Operating System and all Services
-nmap -sV 192.168.1.1	  # Detects all software and version numbers 
+nmap -A 192.168.1.1       # Detects Operating System and all Services
+nmap -sV 192.168.1.1      # Detects all software and version numbers 
 ```
 
 

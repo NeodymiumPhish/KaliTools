@@ -3,6 +3,7 @@ Kali Tools - Nmap
 Table of Contents
 =================
 
+<!--ts-->
 * [Nmap "Network Mapper"](#nmap-network-mapper)
      * [Target can be in almost any format:](#target-can-be-in-almost-any-format)
      * [Selecting port](#selecting-port)
@@ -10,7 +11,7 @@ Table of Contents
      * [Service and OS Detection Flags](#service-and-os-detection-flags)
      * [Nmap Scripting Engine (NSE)](#nmap-scripting-engine-nse)
      * [Nmap Output](#nmap-output)
-
+<!--te-->
 
 
 # Nmap "Network Mapper"

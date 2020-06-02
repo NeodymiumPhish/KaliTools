@@ -13,6 +13,8 @@ Table of Contents
 
 # Nmap "Network Mapper"
 
+Nmap is a free and open source utility for network discovery and security auditing. 
+
 ` nmap [Options] {Target}`
 
 ### Target can be in almost any format:

